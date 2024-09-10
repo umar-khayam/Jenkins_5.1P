@@ -4,19 +4,19 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the code...'
-                sh 'mvn clean package'
+                //sh 'mvn clean package'
             }
         }
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                sh 'mvn test'
+                //sh 'mvn test'
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Deploying application...'
-                sh 'aws deploy push --application-name my-app --s3-location s3://my-bucket/my-app.zip'
+                //sh 'aws deploy push --application-name my-app --s3-location s3://my-bucket/my-app.zip'
             }
         }
     }

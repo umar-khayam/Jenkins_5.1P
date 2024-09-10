@@ -24,8 +24,7 @@ pipeline {
         always {
             mail to: 'u.khayam03@gmail.com',
                  subject: "Build Status: ${currentBuild.currentResult}",
-                 body: "The build status is ${currentBuild.currentResult}. See the logs for more details.",
-                 attachmentsPattern: 'logs/*.log'
+                 body: "The build status is ${currentBuild.currentResult}."
         }
     }
 }

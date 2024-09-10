@@ -20,7 +20,6 @@ pipeline {
             steps {
                 echo 'Code Analysis'
                 //sh 'mvn sonar:sonar'
-                }
             }
         }
     
@@ -28,7 +27,6 @@ pipeline {
             steps {
                 echo 'Security Test'
                 //sh 'snyk test'
-                }
             }
         }
 
@@ -43,7 +41,6 @@ pipeline {
             steps {
                 echo 'Integration Tests on Staging'
                 //sh 'ssh -i /path/to/key user@${STAGING_SERVER} "integration-tests.sh"'
-                }
             }
         }
 
@@ -52,7 +49,6 @@ pipeline {
                 echo 'Deploy to Production'
                 //sh 'scp -i /path/to/key /path/to/your/app.jar user@${PRODUCTION_SERVER}:/path/to/deploy'
                 //sh 'ssh -i /path/to/key user@${PRODUCTION_SERVER} "deploy-script.sh"'
-                }
             }
         }
     }

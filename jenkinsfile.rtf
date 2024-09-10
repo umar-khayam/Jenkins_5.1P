@@ -1,0 +1,79 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2761
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 pipeline \{\
+    agent any\
+    stages \{\
+        stage('Build') \{\
+            steps \{\
+                script \{\
+                    echo 'Building the code'\
+                    sh 'mvn clean package'\
+                \}\
+            \}\
+        \}\
+        stage('Unit and Integration Tests') \{\
+            steps \{\
+                script \{\
+                    echo 'Running unit and integration tests'\
+                    sh 'mvn test'\
+                \}\
+            \}\
+        \}\
+        stage('Code Analysis') \{\
+            steps \{\
+                script \{\
+                    echo 'Analyzing code'\
+                    sh 'mvn sonar:sonar'\
+                \}\
+            \}\
+        \}\
+        stage('Security Scan') \{\
+            steps \{\
+                script \{\
+                    echo 'Scanning for security vulnerabilities'\
+                    sh 'zap-cli quick-scan http://localhost:8080'\
+                \}\
+            \}\
+        \}\
+        stage('Deploy to Staging') \{\
+            steps \{\
+                script \{\
+                    echo 'Deploying to staging'\
+                    sh 'aws deploy push --application-name my-app --s3-location s3://my-bucket/my-app.zip'\
+                \}\
+            \}\
+        \}\
+        stage('Integration Tests on Staging') \{\
+            steps \{\
+                script \{\
+                    echo 'Running integration tests on staging'\
+                    sh 'mvn verify'\
+                \}\
+            \}\
+        \}\
+        stage('Deploy to Production') \{\
+            steps \{\
+                script \{\
+                    echo 'Deploying to production'\
+                    sh 'aws deploy push --application-name my-app --s3-location s3://my-bucket/my-app.zip'\
+                \}\
+            \}\
+        \}\
+    \}\
+    post \{\
+        always \{\
+            emailext(\
+                to: \'91u.khayam03@gmail.com',\
+                subject: "Build Status: $\{currentBuild.currentResult\}",\
+                body: "The build status is $\{currentBuild.currentResult\}.",\
+                attachmentsPattern: 'logs/*.log'\
+            )\
+        \}\
+    \}\
+\}\
+}
